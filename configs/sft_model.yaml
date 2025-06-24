@@ -1,0 +1,9 @@
+# configs/sft_model.yaml
+model_name: Qwen/Qwen3-4B
+dataset_path: data/processed/alpaca.json
+output_dir: output/sft_model
+batch_size: 8
+max_length: 512
+lr: 2e-5
+num_epochs: 3
+

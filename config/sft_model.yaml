@@ -1,0 +1,9 @@
+# configs/sft_model.yaml
+train_batch_size: 8
+eval_batch_size: 4
+learning_rate: 2e-5
+num_train_epochs: 3
+output_dir: ./output
+model_name_or_path: Qwen/Qwen3-8B
+logging_dir: ./logs
+

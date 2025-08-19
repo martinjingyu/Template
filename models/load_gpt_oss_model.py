@@ -88,6 +88,7 @@ def cons():
         temperature=0.7
     )
     output = tokenizer.decode(outputs[0][len(inputs["input_ids"][0]):])
+    print("Output:", output)
     if "<|start|>assistant<|channel|>analysis<|message|>" in output:
         think = output.split("<|start|>assistant<|channel|>analysis<|message|>")[1]
         think = think.split("<|end|>")[0]

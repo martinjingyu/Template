@@ -9,7 +9,7 @@ from openai_harmony import (
     DeveloperContent
 )
 from transformers import AutoModelForCausalLM, AutoTokenizer
- 
+import torch
 encoding = load_harmony_encoding(HarmonyEncodingName.HARMONY_GPT_OSS)
  
 # Build conversation
@@ -32,9 +32,11 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="auto", device_map="auto")
  
 print(prefill_ids)
+
+input_ids = torch.tensor([prefill_ids], dtype=torch.long) 
 # Generate
 outputs = model.generate(
-    input_ids=[prefill_ids],
+    input_ids=input_ids,
     max_new_tokens=128,
     eos_token_id=stop_token_ids
 )

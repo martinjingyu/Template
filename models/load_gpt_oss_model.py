@@ -87,14 +87,13 @@ def cons():
         max_new_tokens=2048,
         temperature=0.7
     )
-    output = tokenizer.decode(outputs[0][len(inputs["input_ids"][0]):])
-    print("Output:", output)
-    if "<|start|>assistant<|channel|>analysis<|message|>" in output:
-        think = output.split("<|start|>assistant<|channel|>analysis<|message|>")[1]
+    print("Output:", outputs)
+    if "<|start|>assistant<|channel|>analysis<|message|>" in outputs:
+        think = outputs.split("<|start|>assistant<|channel|>analysis<|message|>")[1]
         think = think.split("<|end|>")[0]
         
-    if "<|start|>assistant<|channel|>final<|message|>" in output:
-        response = output.split("<|start|>assistant<|channel|>final<|message|>")[1]
+    if "<|start|>assistant<|channel|>final<|message|>" in outputs:
+        response = outputs.split("<|start|>assistant<|channel|>final<|message|>")[1]
         response = response.split("<|return|>")[0]
         
     

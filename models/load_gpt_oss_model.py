@@ -10,48 +10,81 @@ from openai_harmony import (
 )
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
-encoding = load_harmony_encoding(HarmonyEncodingName.HARMONY_GPT_OSS)
- 
-# Build conversation
-convo = Conversation.from_messages([
-    Message.from_role_and_content(Role.SYSTEM, SystemContent.new()),
-    Message.from_role_and_content(
-        Role.DEVELOPER,
-        DeveloperContent.new().with_instructions("Always respond in riddles")
-    ),
-    Message.from_role_and_content(Role.USER, "What is the weather like in SF?")
-])
- 
-# Render prompt
-prefill_ids = encoding.render_conversation_for_completion(convo, Role.ASSISTANT)
-stop_token_ids = encoding.stop_tokens_for_assistant_actions()
- 
-# Load model
-model_name = "openai/gpt-oss-20b"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="auto", device_map="auto")
- 
-print(prefill_ids)
-
-input_ids = torch.tensor([prefill_ids], dtype=torch.long).to(model.device)
-# Generate
-print(tokenizer.decode(input_ids[0]))
-
-outputs = model.generate(
-    input_ids=input_ids,
-    max_new_tokens=2048,
-    eos_token_id=stop_token_ids
-)
-print('Generated output:')
-print(tokenizer.decode(outputs[0]))
-exit()
-# Parse completion tokens
-completion_ids = outputs[0][len(prefill_ids):]
-entries = encoding.parse_messages_from_completion_tokens(completion_ids, Role.ASSISTANT)
-
-print(entries)
-# for message in entries:
+def tools():
+    encoding = load_harmony_encoding(HarmonyEncodingName.HARMONY_GPT_OSS)
     
-#     print(json.dumps(message.to_dict(), indent=2))
+    # Build conversation
+    convo = Conversation.from_messages([
+        Message.from_role_and_content(Role.SYSTEM, SystemContent.new()),
+        Message.from_role_and_content(
+            Role.DEVELOPER,
+            DeveloperContent.new().with_instructions("Always respond in riddles")
+        ),
+        Message.from_role_and_content(Role.USER, "What is the weather like in SF?")
+    ])
     
-# print(SystemContent.new())
+    # Render prompt
+    prefill_ids = encoding.render_conversation_for_completion(convo, Role.ASSISTANT)
+    stop_token_ids = encoding.stop_tokens_for_assistant_actions()
+    
+    # Load model
+    model_name = "openai/gpt-oss-20b"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="auto", device_map="auto")
+    
+    print(prefill_ids)
+
+    input_ids = torch.tensor([prefill_ids], dtype=torch.long).to(model.device)
+    # Generate
+    print(tokenizer.decode(input_ids[0]))
+
+    outputs = model.generate(
+        input_ids=input_ids,
+        max_new_tokens=2048,
+        eos_token_id=stop_token_ids
+    )
+    print('Generated output:')
+    print(tokenizer.decode(outputs[0]))
+    exit()
+    # Parse completion tokens
+    completion_ids = outputs[0][len(prefill_ids):]
+    entries = encoding.parse_messages_from_completion_tokens(completion_ids, Role.ASSISTANT)
+
+    print(entries)
+    # for message in entries:
+        
+    #     print(json.dumps(message.to_dict(), indent=2))
+        
+    # print(SystemContent.new())
+    
+def cons():
+
+ 
+    model_name = "openai/gpt-oss-20b"
+    
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype="auto",
+        device_map="auto"
+    )
+    
+    messages = [
+        {"role": "user", "content": "Explain what MXFP4 quantization is."},
+    ]
+    
+    inputs = tokenizer.apply_chat_template(
+        messages,
+        add_generation_prompt=True,
+        return_tensors="pt",
+        return_dict=True,
+    ).to(model.device)
+    
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=200,
+        temperature=0.7
+    )
+    
+    print(tokenizer.decode(outputs[0]))
+cons()

@@ -70,7 +70,7 @@ def cons():
     )
     
     messages = [
-        {"role": "user", "content": "Explain what MXFP4 quantization is."},
+        {"role": "user", "content": "Hello, how are you?"},
     ]
     
     inputs = tokenizer.apply_chat_template(
@@ -85,8 +85,18 @@ def cons():
         max_new_tokens=2048,
         temperature=0.7
     )
+    output = tokenizer.decode(outputs[0][len(inputs["input_ids"][0]):])
+    # if "<|start|>assistant<|channel|>analysis<|message|>" in output:
+    #     think = output.split("<|start|>assistant<|channel|>analysis<|message|>")[1]
+    #     think = think.split("<|end|>")[0]
+        
+    # if "<|start|>assistant<|channel|>final<|message|>" in output:
+    #     response = output.split("<|start|>assistant<|channel|>final<|message|>")[1]
+    #     response = response.split("<|end|>")[0]
+        
+        
     
-    print(tokenizer.decode(outputs[0]))
+    print(output)
     with open("output.txt", "w", encoding="utf-8") as f:
         f.write(tokenizer.decode(outputs[0]))
 cons()

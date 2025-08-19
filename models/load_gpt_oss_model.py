@@ -35,7 +35,7 @@ print(prefill_ids)
 
 input_ids = torch.tensor([prefill_ids], dtype=torch.long).to(model.device)
 # Generate
-print(tokenizer.decode(input_ids))
+print(tokenizer.decode(input_ids[0]))
 exit()
 outputs = model.generate(
     input_ids=input_ids,

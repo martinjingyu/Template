@@ -31,6 +31,7 @@ model_name = "openai/gpt-oss-20b"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="auto", device_map="auto")
  
+print(prefill_ids)
 # Generate
 outputs = model.generate(
     input_ids=[prefill_ids],

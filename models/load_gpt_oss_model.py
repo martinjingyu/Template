@@ -36,13 +36,15 @@ print(prefill_ids)
 input_ids = torch.tensor([prefill_ids], dtype=torch.long).to(model.device)
 # Generate
 print(tokenizer.decode(input_ids[0]))
-exit()
+
 outputs = model.generate(
     input_ids=input_ids,
     max_new_tokens=2048,
     eos_token_id=stop_token_ids
 )
- 
+print('Generated output:')
+print(tokenizer.decode(outputs[0]))
+exit()
 # Parse completion tokens
 completion_ids = outputs[0][len(prefill_ids):]
 entries = encoding.parse_messages_from_completion_tokens(completion_ids, Role.ASSISTANT)

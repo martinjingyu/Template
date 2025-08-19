@@ -37,7 +37,7 @@ input_ids = torch.tensor([prefill_ids], dtype=torch.long).to(model.device)
 # Generate
 outputs = model.generate(
     input_ids=input_ids,
-    max_new_tokens=128,
+    max_new_tokens=2048,
     eos_token_id=stop_token_ids
 )
  

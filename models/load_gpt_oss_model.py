@@ -33,7 +33,7 @@ model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="auto", dev
  
 print(prefill_ids)
 
-input_ids = torch.tensor([prefill_ids], dtype=torch.long) 
+input_ids = torch.tensor([prefill_ids], dtype=torch.long).to(model.device)
 # Generate
 outputs = model.generate(
     input_ids=input_ids,
@@ -44,8 +44,10 @@ outputs = model.generate(
 # Parse completion tokens
 completion_ids = outputs[0][len(prefill_ids):]
 entries = encoding.parse_messages_from_completion_tokens(completion_ids, Role.ASSISTANT)
- 
-for message in entries:
-    print(json.dumps(message.to_dict(), indent=2))
+
+print(entries)
+# for message in entries:
     
-print(SystemContent.new())
+#     print(json.dumps(message.to_dict(), indent=2))
+    
+# print(SystemContent.new())

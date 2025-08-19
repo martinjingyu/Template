@@ -87,4 +87,6 @@ def cons():
     )
     
     print(tokenizer.decode(outputs[0]))
+    with open("output.txt", "w", encoding="utf-8") as f:
+        f.write(tokenizer.decode(outputs[0]))
 cons()

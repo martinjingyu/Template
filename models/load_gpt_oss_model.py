@@ -87,6 +87,7 @@ def cons():
         max_new_tokens=2048,
         temperature=0.7
     )
+    outputs = tokenizer.decode(outputs[0])
     print("Output:", outputs)
     if "<|start|>assistant<|channel|>analysis<|message|>" in outputs:
         think = outputs.split("<|start|>assistant<|channel|>analysis<|message|>")[1]

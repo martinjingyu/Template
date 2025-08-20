@@ -70,7 +70,7 @@ def cons():
     )
     
     messages = [
-        {"role": "developer", "content": "You are a helpful assistant."},
+        {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello, how are you?"},
 
     ]
